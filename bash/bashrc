@@ -1,0 +1,28 @@
+# ~/.bashrc  (Zeus e Jupiter identico)
+
+# Solo shell interattive
+case $- in
+  *i*) ;;
+    *) return;;
+esac
+
+# Config comune
+[ -f "$HOME/.bashrc_common" ] && . "$HOME/.bashrc_common"
+
+# Config specifica per OS
+if [[ "$OSTYPE" == linux* ]]; then
+  [ -f "$HOME/.bashrc_linux" ] && . "$HOME/.bashrc_linux"
+elif [[ "$OSTYPE" == darwin* ]]; then
+  [ -f "$HOME/.bashrc_macos" ] && . "$HOME/.bashrc_macos"
+fi
+
+# Secrets (API keys, tokens)
+[ -f "$HOME/.bashrc_secrets" ] && . "$HOME/.bashrc_secrets"
+
+# uv
+export PATH="/Users/claudio/.local/bin:$PATH"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Codex CLI tools
+export PATH="$HOME/.codex/bin:$PATH"

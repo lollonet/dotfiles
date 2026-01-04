@@ -1,0 +1,13 @@
+# ~/.bashrc_macos  (Jupiter)
+
+# Homebrew (Apple Silicon)
+if command -v /opt/homebrew/bin/brew >/dev/null 2>&1; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# Qui puoi aggiungere eventuali completions specifiche,
+# Abilita bash-completion di Homebrew se presente
+if [ -f /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
+  . /opt/homebrew/etc/profile.d/bash_completion.sh
+fi
+

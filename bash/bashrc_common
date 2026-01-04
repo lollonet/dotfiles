@@ -1,0 +1,79 @@
+# ~/.bashrc_common
+
+# Oh My Bash
+export OSH="$HOME/.oh-my-bash"
+
+# Tema comune per entrambe le macchine
+# (cambia in "font" se preferisci, ma tienilo uguale su Zeus/Jupiter)
+OSH_THEME="agnoster"
+OSH_THEME="brainy"
+
+# Prompt/UX
+OMB_PROMPT_SHOW_PYTHON_VENV=true
+PROMPT_DIRTRIM=3
+OMB_TERM_USE_TPUT=no
+
+# Completions comuni, con abilitazione dinamica
+completions=(git ssh)
+
+command -v gh     >/dev/null 2>&1 && completions+=(gh)
+command -v pip    >/dev/null 2>&1 && completions+=(pip)
+command -v pip3   >/dev/null 2>&1 && completions+=(pip3)
+command -v uv     >/dev/null 2>&1 && completions+=(uv)
+command -v docker >/dev/null 2>&1 && completions+=(docker)
+command -v composer >/dev/null 2>&1 && completions+=(composer)
+
+# Aliases comuni
+aliases=(general package-manager)
+command -v docker >/dev/null 2>&1 && aliases+=(docker)
+
+# Plugins comuni
+plugins=(
+  git
+  colored-man-pages
+  sudo
+  bashmarks       # se presente nel tuo ~/.oh-my-bash/plugins
+)
+
+command -v fzf     >/dev/null 2>&1 && plugins+=(fzf)
+command -v zoxide  >/dev/null 2>&1 && plugins+=(zoxide)
+command -v nvm     >/dev/null 2>&1 && plugins+=(nvm)
+[ -n "$SSH_TTY" ] && command -v tmux >/dev/null 2>&1 && plugins+=(tmux-autoattach)
+
+# Behaviour e storia
+OMB_CASE_SENSITIVE=false
+OMB_HYPHEN_SENSITIVE=false
+
+DISABLE_UPDATE_PROMPT=true
+export UPDATE_OSH_DAYS=21
+DISABLE_UNTRACKED_FILES_DIRTY=true
+SCM_GIT_DISABLE_UNTRACKED_DIRTY=true
+SCM_GIT_SHOW_MINIMAL_INFO=false
+
+HIST_STAMPS='yyyy-mm-dd'
+
+OMB_USE_SUDO=true
+OMB_DEFAULT_ALIASES=enable
+
+# Comportamento Oh My Bash (era attivo su Zeus, ora di nuovo per entrambe)
+ENABLE_CORRECTION="true"
+COMPLETION_WAITING_DOTS="true"
+
+# PATH comune
+[ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
+
+# npm global bin (se npm esiste)
+if command -v npm >/dev/null 2>&1; then
+  export PATH="$(npm config get prefix)/bin:$PATH"
+fi
+
+# NVM (uguale Linux/macOS)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ]          && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+
+# Cursore lampeggiante
+printf '\e[3 q'
+
+# Carica Oh My Bash dopo aver definito tutte le variabili
+source "$OSH/oh-my-bash.sh"
