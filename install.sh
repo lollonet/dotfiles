@@ -17,12 +17,24 @@ if [[ "${1:-}" == "--dry-run" ]]; then
     echo "[dry-run] No changes will be made."
 fi
 
+# Detect OS
+if [[ "$OSTYPE" == linux* ]]; then
+    OS="linux"
+elif [[ "$OSTYPE" == darwin* ]]; then
+    OS="macos"
+else
+    echo "ERROR: Unsupported OS: $OSTYPE" >&2
+    exit 1
+fi
+
+echo "OS detected: $OS"
+
 # Map: repo file -> home target
+# Common files (all platforms) + OS-specific file
 declare -A LINKS=(
     ["bash/bashrc"]="$HOME/.bashrc"
     ["bash/bashrc_common"]="$HOME/.bashrc_common"
-    ["bash/bashrc_linux"]="$HOME/.bashrc_linux"
-    ["bash/bashrc_macos"]="$HOME/.bashrc_macos"
+    ["bash/bashrc_$OS"]="$HOME/.bashrc_$OS"
 )
 
 backup_created=false
