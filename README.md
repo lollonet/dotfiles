@@ -5,11 +5,12 @@ Configurazioni shell sincronizzate tra Jupiter (macOS) e Zeus (Linux).
 ## Struttura
 
 ```
-bash/
-├── bashrc              # File principale, identico su entrambi gli host
-├── bashrc_common       # Configurazione Oh My Bash condivisa
-├── bashrc_macos        # Specifiche per macOS (Homebrew)
-└── bashrc_linux        # Specifiche per Linux (temperatura CPU, neofetch)
+├── install.sh          # Script di installazione (symlink + backup)
+└── bash/
+    ├── bashrc          # File principale, identico su entrambi gli host
+    ├── bashrc_common   # Configurazione Oh My Bash condivisa
+    ├── bashrc_macos    # Specifiche per macOS (Homebrew)
+    └── bashrc_linux    # Specifiche per Linux (temperatura CPU, neofetch)
 ```
 
 ## Installazione
@@ -33,21 +34,14 @@ chmod 600 ~/.bashrc_secrets
 
 ```bash
 cd ~/Code/dotfiles
-
-# Backup dei file esistenti
-cp ~/.bashrc ~/.bashrc.backup
-cp ~/.bashrc_common ~/.bashrc_common.backup 2>/dev/null
-
-# Link o copia i file
-cp bash/bashrc ~/.bashrc
-cp bash/bashrc_common ~/.bashrc_common
-
-# macOS
-cp bash/bashrc_macos ~/.bashrc_macos
-
-# Linux
-cp bash/bashrc_linux ~/.bashrc_linux
+./install.sh            # crea symlink da ~ ai file nel repo
 ```
+
+Lo script:
+- Crea symlink da `~/.bashrc*` ai file in `bash/`
+- Esegue backup automatico dei file esistenti in `~/.claude-backups/dotfiles/<timestamp>/`
+- Salta file già correttamente collegati
+- Supporta `--dry-run` per vedere le modifiche senza applicarle
 
 ### 3. Ricarica la shell
 
